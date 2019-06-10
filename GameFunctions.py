@@ -1,9 +1,13 @@
 import tkinter as tk
 
 class gameFunctions:
-    def __init__(self):
+    def __init__(self, window):
         print("[INFO]\tInitializing game mechanics...")
+        self.window = window
+
+        # Player/Winner variables
         self.counter = 0
+        self.winner = 0
     
     def playerOneAction(self, button):
         '''
@@ -28,9 +32,14 @@ class gameFunctions:
                       state='disabled',
                       disabledforeground='Blue')
 
+    def catsGameCheck(self):
+        if self.counter == 9 and self.winner == 0:
+            self.window.destroy()
+
     def playerSelect(self, button):
         if (self.counter % 2) ==  0:
             self.playerOneAction(button)
         else:
             self.PlayerTwoAction(button)
         self.counter = self.counter + 1
+        self.catsGameCheck()

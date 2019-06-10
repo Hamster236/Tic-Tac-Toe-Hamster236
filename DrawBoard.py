@@ -6,7 +6,7 @@ class board:
         self.window = window
         self.window.geometry('265x300')
         self.window.config(bg='White')
-        self.Gf = Gf.gameFunctions()
+        self.Gf = Gf.gameFunctions(self.window)
         self.window.title("Tic-Tac-Toe")
         self.__buttons__(window)
         self.window.mainloop()
