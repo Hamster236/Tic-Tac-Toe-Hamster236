@@ -43,3 +43,52 @@ class gameFunctions:
             self.PlayerTwoAction(button)
         self.counter = self.counter + 1
         self.catsGameCheck()
+
+    def checkButton(self, button, id, player):
+        if id == 1:
+            player[1,1] = 1
+        elif id == 2:
+            player[1,2] = 1
+        elif id == 3:
+            player[1,3] = 1
+        elif id == 4:
+            player[2,1] = 1
+        elif id == 5:
+            player[2,2] = 1
+        elif id == 6:
+            player[2,3] = 1
+        elif id == 7:
+            player[3,1] = 1
+        elif id == 8:
+            player[3,2] = 1
+        elif id == 9:
+            player[3,3] = 1
+        else:
+            # should never reach here
+            player[0,0] = 0
+
+    def checkWin(self, player):
+        # 1st Row
+        if player[1,1] == 1 and player[1,2] == 1 and player[1,3] == 1:
+            player[1,0] = 1
+        # 2nd Row
+        elif player[2,1] == 1 and player[2,2] == 1 and player[2,3] == 1:
+            player[1,0] = 1
+        # 3rd Row
+        elif player[3,1] == 1 and player[3,2] == 1 and player[3,3] == 1:
+            player[1,0] = 1
+        # 1st Column
+        elif player[1,1] == 1 and player[2,1] == 1 and player[3,1] == 1:
+            player[1,0] = 1
+        # 2nd Column
+        elif player[1,2] == 1 and player[2,2] == 1 and player[3,2] == 1:
+            player[1,0] = 1
+        # 3rd Column
+        elif player[1,3] == 1 and player[2,3] == 1 and player[3,3] == 1:
+            player[1,0] = 1
+        # Top Left to Bottom Right
+        elif player[1,1] == 1 and player[2,2] == 1 and player[3,3] == 1:
+            player[1,0] = 1
+        # Bottom Left to Top Right
+        elif player[3,1] == 1 and player[2,2] == 1 and player[1,3] == 1:
+            player[1,0] = 1
