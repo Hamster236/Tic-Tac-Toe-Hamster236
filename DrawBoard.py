@@ -4,7 +4,7 @@ import GameFunctions as Gf
 class board:
     def __init__(self, window):
         self.window = window
-        self.window.geometry('265x300')
+        self.window.geometry('265x320')
         self.window.config(bg='White')
         self.Gf = Gf.gameFunctions(self.window)
         self.window.title("Tic-Tac-Toe")
@@ -28,10 +28,11 @@ class board:
 
         # Label information
         self.lbl_gameIntro = tk.Label(self.window,
-                                      text="Everett's Amazing Tic-Tac-Toe Game",
+                                      text="Hamster236's Amazing Game",
                                       font=m_font, 
                                       bg='White',
-                                      width=28)
+                                      width=28,
+                                      anchor=tk.W)
 
         # Button information from top left accross then down to bottom right
         # TOP
@@ -41,7 +42,7 @@ class board:
                                     bg='White',
                                     width=m_butWid,
                                     height=m_butHgt,
-                                    command=lambda:self.Gf.playerSelect(self.btn_topLft))
+                                    command=lambda:self.Gf.playerSelect(self.btn_topLft, 1))
         
         self.btn_topMid = tk.Button(self.window,
                                     text='-',
@@ -49,7 +50,7 @@ class board:
                                     bg='White',
                                     width=m_butWid,
                                     height=m_butHgt,
-                                    command=lambda:self.Gf.playerSelect(self.btn_topMid))
+                                    command=lambda:self.Gf.playerSelect(self.btn_topMid, 2))
 
         self.btn_topRgt = tk.Button(self.window,
                                     text='-',
@@ -57,7 +58,7 @@ class board:
                                     bg='White',
                                     width=m_butWid,
                                     height=m_butHgt,
-                                    command=lambda:self.Gf.playerSelect(self.btn_topRgt))
+                                    command=lambda:self.Gf.playerSelect(self.btn_topRgt, 3))
 
         # MIDDLE
         self.btn_cenLft = tk.Button(self.window,
@@ -66,7 +67,7 @@ class board:
                                     bg='White',
                                     width=m_butWid,
                                     height=m_butHgt,
-                                    command=lambda:self.Gf.playerSelect(self.btn_cenLft))
+                                    command=lambda:self.Gf.playerSelect(self.btn_cenLft, 4))
 
         self.btn_cenMid = tk.Button(self.window,
                                     text='-',
@@ -74,7 +75,7 @@ class board:
                                     bg='White',
                                     width=m_butWid,
                                     height=m_butHgt,
-                                    command=lambda:self.Gf.playerSelect(self.btn_cenMid))
+                                    command=lambda:self.Gf.playerSelect(self.btn_cenMid, 5))
 
         self.btn_cenRgt = tk.Button(self.window,
                                     text='-',
@@ -82,7 +83,7 @@ class board:
                                     bg='White',
                                     width=m_butWid,
                                     height=m_butHgt,
-                                    command=lambda:self.Gf.playerSelect(self.btn_cenRgt))
+                                    command=lambda:self.Gf.playerSelect(self.btn_cenRgt, 6))
 
         # BOTTOM
         self.btn_botLft = tk.Button(self.window,
@@ -91,7 +92,7 @@ class board:
                                     bg='White',
                                    width=m_butWid,
                                     height=m_butHgt,
-                                    command=lambda:self.Gf.playerSelect(self.btn_botLft))
+                                    command=lambda:self.Gf.playerSelect(self.btn_botLft, 7))
 
         self.btn_botMid = tk.Button(self.window,
                                     text='-',
@@ -99,7 +100,7 @@ class board:
                                     bg='White',
                                     width=m_butWid,
                                     height=m_butHgt,
-                                    command=lambda:self.Gf.playerSelect(self.btn_botMid))
+                                    command=lambda:self.Gf.playerSelect(self.btn_botMid, 8))
 
         self.btn_botRgt = tk.Button(self.window,
                                     text='-',
@@ -107,8 +108,10 @@ class board:
                                     bg='White',
                                     width=m_butWid,
                                     height=m_butHgt,
-                                    command=lambda:self.Gf.playerSelect(self.btn_botRgt))
+                                    command=lambda:self.Gf.playerSelect(self.btn_botRgt, 9))
         
+        # Entry box to display winner
+        self.lbl_gameInfo = tk.Label(self.window, text="", font=m_font, width=28)
         # Main Label Positional Information
         self.lbl_gameIntro.grid(row=0, 
                                 column=0,

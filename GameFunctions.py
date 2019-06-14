@@ -8,6 +8,11 @@ class gameFunctions:
         # Player/Winner variables
         self.counter = 0
         self.winner = 0
+
+        self.playerOne = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        self.playerTwo = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+        self.id = 0
     
     def playerOneAction(self, button):
         '''
@@ -36,59 +41,67 @@ class gameFunctions:
         if self.counter == 9 and self.winner == 0:
             self.window.destroy()
 
-    def playerSelect(self, button):
+    def playerSelect(self, button, id):
+        self.id = id
         if (self.counter % 2) ==  0:
             self.playerOneAction(button)
+            self.checkWin(button, self.playerOne)
         else:
             self.PlayerTwoAction(button)
+            self.checkWin(button, self.playerTwo)
         self.counter = self.counter + 1
         self.catsGameCheck()
 
-    def checkButton(self, button, id, player):
-        if id == 1:
-            player[1,1] = 1
-        elif id == 2:
-            player[1,2] = 1
-        elif id == 3:
-            player[1,3] = 1
-        elif id == 4:
-            player[2,1] = 1
-        elif id == 5:
-            player[2,2] = 1
-        elif id == 6:
-            player[2,3] = 1
-        elif id == 7:
-            player[3,1] = 1
-        elif id == 8:
-            player[3,2] = 1
-        elif id == 9:
-            player[3,3] = 1
+    def checkButton(self, button, player):
+        if self.id == 1:
+            player[1] = 1
+        elif self.id == 2:
+            player[2] = 1
+        elif self.id == 3:
+            player[3] = 1
+        elif self.id == 4:
+            player[4] = 1
+        elif self.id == 5:
+            player[5] = 1
+        elif self.id == 6:
+            player[6] = 1
+        elif self.id == 7:
+            player[7] = 1
+        elif self.id == 8:
+            player[8] = 1
+        elif self.id == 9:
+            player[9] = 1
         else:
             # should never reach here
-            player[0,0] = 0
+            player[0] = 0
 
-    def checkWin(self, player):
+    def checkWin(self, button, player):
+        # Setting button
+        self.checkButton(button, player)
         # 1st Row
-        if player[1,1] == 1 and player[1,2] == 1 and player[1,3] == 1:
-            player[1,0] = 1
+        if player[1] == 1 and player[2] == 1 and player[3] == 1:
+            player[0] = 1
         # 2nd Row
-        elif player[2,1] == 1 and player[2,2] == 1 and player[2,3] == 1:
-            player[1,0] = 1
+        elif player[4] == 1 and player[5] == 1 and player[6] == 1:
+            player[0] = 1
         # 3rd Row
-        elif player[3,1] == 1 and player[3,2] == 1 and player[3,3] == 1:
-            player[1,0] = 1
+        elif player[7] == 1 and player[8] == 1 and player[9] == 1:
+            player[0] = 1
         # 1st Column
-        elif player[1,1] == 1 and player[2,1] == 1 and player[3,1] == 1:
-            player[1,0] = 1
+        elif player[1] == 1 and player[4] == 1 and player[7] == 1:
+            player[0] = 1
         # 2nd Column
-        elif player[1,2] == 1 and player[2,2] == 1 and player[3,2] == 1:
-            player[1,0] = 1
+        elif player[2] == 1 and player[5] == 1 and player[8] == 1:
+            player[0] = 1
         # 3rd Column
-        elif player[1,3] == 1 and player[2,3] == 1 and player[3,3] == 1:
-            player[1,0] = 1
+        elif player[3] == 1 and player[6] == 1 and player[9] == 1:
+            player[0] = 1
         # Top Left to Bottom Right
-        elif player[1,1] == 1 and player[2,2] == 1 and player[3,3] == 1:
-            player[1,0] = 1
+        elif player[1] == 1 and player[5] == 1 and player[9] == 1:
+            player[0] = 1
         # Bottom Left to Top Right
-        elif player[3,1] == 1 and player[2,2] == 1 and player[1,3] == 1:
-            player[1,0] = 1
+        elif player[7] == 1 and player[5] == 1 and player[3] == 1:
+            player[0] = 1
+
+        if player[0] == 1:
+            self.window.destroy()
