@@ -1,7 +1,7 @@
 import tkinter as tk
 
 class gameFunctions:
-    def __init__(self, window):
+    def __init__(self, window, label):
         print("[INFO]\tInitializing game mechanics...")
         self.window = window
 
@@ -13,7 +13,13 @@ class gameFunctions:
         self.playerTwo = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
         self.id = 0
+
+        self.messageLabel = label
+        self.messageUpdate("Player 1's Turn")
     
+    def messageUpdate(self, message):
+        self.messageLabel.config(text=message)
+
     def playerOneAction(self, button):
         '''
         playerOneAction is the button configure for player one.
@@ -46,9 +52,11 @@ class gameFunctions:
         if (self.counter % 2) ==  0:
             self.playerOneAction(button)
             self.checkWin(button, self.playerOne)
+            self.messageUpdate("Player 2's Turn")
         else:
             self.PlayerTwoAction(button)
             self.checkWin(button, self.playerTwo)
+            self.messageUpdate("Player 1's Turn")
         self.counter = self.counter + 1
         self.catsGameCheck()
 

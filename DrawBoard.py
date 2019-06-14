@@ -6,9 +6,9 @@ class board:
         self.window = window
         self.window.geometry('265x320')
         self.window.config(bg='White')
-        self.Gf = Gf.gameFunctions(self.window)
         self.window.title("Tic-Tac-Toe")
         self.__buttons__(window)
+        self.Gf = Gf.gameFunctions(self.window, self.lbl_gameInfo)
         self.window.mainloop()
 
     def __buttons__(self, window):
@@ -110,8 +110,14 @@ class board:
                                     height=m_butHgt,
                                     command=lambda:self.Gf.playerSelect(self.btn_botRgt, 9))
         
-        # Entry box to display winner
-        self.lbl_gameInfo = tk.Label(self.window, text="", font=m_font, width=28)
+        # Label to display information pertaining to game
+        # Whose turn it is, cats game, winner, annother game, etc.
+        self.lbl_gameInfo = tk.Label(self.window,
+                                     text="",
+                                     font=m_font,
+                                     width=28,
+                                     anchor=tk.W)
+
         # Main Label Positional Information
         self.lbl_gameIntro.grid(row=0, 
                                 column=0,
@@ -120,6 +126,7 @@ class board:
                                 pady=(m_toppad,0))
 
         # Button Positional Information
+        # TOP
         self.btn_topLft.grid(row=1,
                              column=0,
                              padx=(m_leftpad,0))
@@ -130,6 +137,7 @@ class board:
         self.btn_topRgt.grid(row=1,
                              column=2)
 
+        # MIDDLE
         self.btn_cenLft.grid(row=2,
                              column=0,
                              padx=(m_leftpad,0))
@@ -140,6 +148,7 @@ class board:
         self.btn_cenRgt.grid(row=2,
                              column=2)
 
+        # BOTTOM
         self.btn_botLft.grid(row=3,
                              column=0,
                              padx=(m_leftpad,0))
@@ -149,3 +158,10 @@ class board:
 
         self.btn_botRgt.grid(row=3,
                              column=2)
+
+        # Game info label position (bottom of GUI)
+        self.lbl_gameInfo.grid(row=4, 
+                                column=0,
+                                columnspan=35,
+                                padx=(m_leftpad*(5/12),0),
+                                pady=(m_toppad,0))
