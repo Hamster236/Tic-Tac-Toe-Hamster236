@@ -19,6 +19,7 @@ class gameFunctions:
     
     def messageUpdate(self, message):
         self.messageLabel.config(text=message)
+        self.window.update()
 
     def playerOneAction(self, button):
         '''
@@ -45,18 +46,19 @@ class gameFunctions:
 
     def catsGameCheck(self):
         if self.counter == 9 and self.winner == 0:
-            self.window.destroy()
+            self.messageUpdate("Cats Game!")
+            # self.window.destroy()
 
     def playerSelect(self, button, id):
         self.id = id
         if (self.counter % 2) ==  0:
             self.playerOneAction(button)
-            self.checkWin(button, self.playerOne)
             self.messageUpdate("Player 2's Turn")
+            self.checkWin(button, self.playerOne)
         else:
             self.PlayerTwoAction(button)
-            self.checkWin(button, self.playerTwo)
             self.messageUpdate("Player 1's Turn")
+            self.checkWin(button, self.playerTwo)
         self.counter = self.counter + 1
         self.catsGameCheck()
 
@@ -84,7 +86,39 @@ class gameFunctions:
             player[0] = 0
 
     def checkWin(self, button, player):
-        # Setting button
+        '''
+        checkWin checks for 3 buttons in a straight line. If the player
+        has 3 buttons in a straight line, they are deemed the winner.
+        
+        *** inputs ***
+        button: The button that was clicked
+        player: Either playerOne or playerTwo
+
+        *** Logic ***
+        Each player is a 10 element array all initialized to 0. The
+        elements change to 1 if that button is pressed. After there
+        are 3 elements that exist in a winning condition:
+        
+        1 | 2 | 3
+        _________
+        4 | 5 | 6
+        _________
+        7 | 8 | 9
+
+        The winning conditions are as follows (using diagram above)
+        123: Top Row
+        456: Mid Row
+        789: Bot Row
+        147: Lft Col
+        258: Mid Col
+        369: Rgt Col
+        159: Neg Slope Diagonal
+        357: Pos Slope Diagonal
+
+        Once the winner is found:
+        1. Message displaying winner
+        2. Board reset
+        '''
         self.checkButton(button, player)
         # 1st Row
         if player[1] == 1 and player[2] == 1 and player[3] == 1:
@@ -112,4 +146,7 @@ class gameFunctions:
             player[0] = 1
 
         if player[0] == 1:
-            self.window.destroy()
+            if player == self.playerOne:
+                self.messageUpdate("Player 1 is the winner!")
+            else:
+                self.messageUpdate("Player 2 is the winner!")
