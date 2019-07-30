@@ -16,6 +16,13 @@ class gameFunctions:
 
         self.messageLabel = label
         self.messageUpdate("Player 1's Turn")
+
+        print("[INFO]\tInitialization complete.")
+
+    def clearStats(self):
+        self.playerOne = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        self.playerTwo = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        self.counter = 0
     
     def messageUpdate(self, message):
         self.messageLabel.config(text=message)

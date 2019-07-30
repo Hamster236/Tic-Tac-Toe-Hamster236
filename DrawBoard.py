@@ -4,7 +4,7 @@ import GameFunctions as Gf
 class board:
     def __init__(self, window):
         self.window = window
-        self.window.geometry('265x320')
+        self.window.geometry('265x350')
         self.window.config(bg='White')
         self.window.title("Tic-Tac-Toe")
         self.__buttons__(window)
@@ -109,6 +109,15 @@ class board:
                                     width=m_butWid,
                                     height=m_butHgt,
                                     command=lambda:self.Gf.playerSelect(self.btn_botRgt, 9))
+
+        # RESET BUTTON
+        self.btn_reset = tk.Button( self.window,
+                                    text='Clear Board',
+                                    font=m_font,
+                                    bg='White',
+                                    width=m_butWid*3,
+                                    height=int(m_butHgt/3),
+                                    command=self.resetBoard)
         
         # Label to display information pertaining to game
         # Whose turn it is, cats game, winner, annother game, etc.
@@ -159,9 +168,44 @@ class board:
         self.btn_botRgt.grid(row=3,
                              column=2)
 
+        # RESET
+        self.btn_reset.grid(row=4,
+                            column=0,
+                            columnspan=3)
+
         # Game info label position (bottom of GUI)
-        self.lbl_gameInfo.grid(row=4, 
+        self.lbl_gameInfo.grid(row=5, 
                                 column=0,
                                 columnspan=35,
                                 padx=(m_leftpad*(5/12),0),
                                 pady=(m_toppad,0))
+
+    def resetBoard(self):
+        self.btn_topLft.config(text='-',
+                               state='normal',
+                               fg='Black')
+        self.btn_topMid.config(text='-',
+                               state='normal',
+                               fg='Black')
+        self.btn_topRgt.config(text='-',
+                               state='normal',
+                               fg='Black')
+        self.btn_cenLft.config(text='-',
+                               state='normal',
+                               fg='Black')
+        self.btn_cenMid.config(text='-',
+                               state='normal',
+                               fg='Black')
+        self.btn_cenRgt.config(text='-',
+                               state='normal',
+                               fg='Black')
+        self.btn_botLft.config(text='-',
+                               state='normal',
+                               fg='Black')
+        self.btn_botMid.config(text='-',
+                               state='normal',
+                               fg='Black')
+        self.btn_botRgt.config(text='-',
+                               state='normal',
+                               fg='Black')
+        self.Gf.clearStats()
