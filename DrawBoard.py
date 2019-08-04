@@ -1,7 +1,7 @@
 import tkinter as tk
 import GameFunctions as Gf
 
-class board:
+class Board:
     def __init__(self, window, boardSize):
         print("[INFO] Generating Game Board...")
 
@@ -23,7 +23,7 @@ class board:
         self.__label__()
 
         # Importing the game functionality
-        self.Gf = Gf.gameFunctions(self.window, self.gameInfo, self.boardSize)
+        self.Gf = Gf.GameFunctions(self.window, self.gameInfo, self.boardSize)
         print("[INFO] Board Generated!")
 
         # Starting the GUI
