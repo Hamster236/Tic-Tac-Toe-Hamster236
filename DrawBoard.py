@@ -3,7 +3,7 @@ import GameFunctions as Gf
 
 class Board:
     def __init__(self, window, boardSize):
-        print("[INFO] Generating Game Board...")
+        print("[INFO]\tGenerating Game Board...")
 
         # Creating class variables
         self.window = window
@@ -24,7 +24,7 @@ class Board:
 
         # Importing the game functionality
         self.Gf = Gf.GameFunctions(self.window, self.gameInfo, self.boardSize)
-        print("[INFO] Board Generated!")
+        print("[INFO]t\tBoard Generated!")
 
         # Starting the GUI
         self.window.mainloop()
