@@ -1,16 +1,16 @@
 import tkinter as tk
 
 class gameFunctions:
-    def __init__(self, window, label):
+    def __init__(self, window, label, boardSize):
         print("[INFO]\tInitializing game mechanics...")
         self.window = window
 
         # Player/Winner variables
         self.counter = 0
         self.winner = 0
+        self.boardSize = boardSize
 
-        self.playerOne = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        self.playerTwo = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        self.clearStats()
 
         self.id = 0
 
@@ -20,8 +20,9 @@ class gameFunctions:
         print("[INFO]\tInitialization complete.")
 
     def clearStats(self):
-        self.playerOne = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        self.playerTwo = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        numElements = self.boardSize * self.boardSize + 1
+        self.playerOne = [0] * numElements
+        self.playerTwo = [0] * numElements
         self.counter = 0
     
     def messageUpdate(self, message):
@@ -42,14 +43,10 @@ class gameFunctions:
 
         Implementing method 1.
         '''
-        button.config(text='X',
-                      state='disabled',
-                      disabledforeground='Red')
+        button.config(text='X',state='disabled',disabledforeground='Red')
 
     def PlayerTwoAction(self, button):
-        button.config(text='O',
-                      state='disabled',
-                      disabledforeground='Blue')
+        button.config(text='O',state='disabled',disabledforeground='Blue')
 
     def catsGameCheck(self):
         if self.counter == 9 and self.winner == 0:
@@ -68,29 +65,6 @@ class gameFunctions:
             self.checkWin(button, self.playerTwo)
         self.counter = self.counter + 1
         self.catsGameCheck()
-
-    def checkButton(self, button, player):
-        if self.id == 1:
-            player[1] = 1
-        elif self.id == 2:
-            player[2] = 1
-        elif self.id == 3:
-            player[3] = 1
-        elif self.id == 4:
-            player[4] = 1
-        elif self.id == 5:
-            player[5] = 1
-        elif self.id == 6:
-            player[6] = 1
-        elif self.id == 7:
-            player[7] = 1
-        elif self.id == 8:
-            player[8] = 1
-        elif self.id == 9:
-            player[9] = 1
-        else:
-            # should never reach here
-            player[0] = 0
 
     def checkWin(self, button, player):
         '''
@@ -126,7 +100,7 @@ class gameFunctions:
         1. Message displaying winner
         2. Board reset
         '''
-        self.checkButton(button, player)
+        player[self.id] = 1
         # 1st Row
         if player[1] == 1 and player[2] == 1 and player[3] == 1:
             player[0] = 1

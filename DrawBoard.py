@@ -11,7 +11,7 @@ class board:
         self.window.title("Tic-Tac-Toe")
         self.__buttons__()
         self.__label__()
-        self.Gf = Gf.gameFunctions(self.window, self.gameInfo)
+        self.Gf = Gf.gameFunctions(self.window, self.gameInfo, self.boardSize)
         self.window.mainloop()
 
     def __label__(self):
