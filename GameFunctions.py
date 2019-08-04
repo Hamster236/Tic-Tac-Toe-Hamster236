@@ -49,7 +49,7 @@ class gameFunctions:
         button.config(text='O',state='disabled',disabledforeground='Blue')
 
     def catsGameCheck(self):
-        if self.counter == 9 and self.winner == 0:
+        if self.counter == self.boardSize*self.boardSize and self.winner == 0:
             self.messageUpdate("Cats Game!")
             # self.window.destroy()
 
@@ -66,6 +66,48 @@ class gameFunctions:
         self.counter = self.counter + 1
         self.catsGameCheck()
 
+    def checkRow(self, player):
+        # Create a counter for the row. If False, no winner.
+        rowWin = False
+        for i in range(0, self.boardSize):
+            countToWin = 0
+            for j in range(1, self.boardSize+1):
+                if player[self.boardSize*i + j] is 1:
+                    countToWin+=1
+            if countToWin is self.boardSize:
+                rowWin = True
+                break
+        return rowWin
+
+    def checkColumn(self, player):
+        columnWin = False
+        for i in range(1, self.boardSize+1):
+            countToWin = 0
+            for j in range(0, self.boardSize):
+                if player[i + self.boardSize*j] is 1:
+                    countToWin+=1
+            if countToWin is self.boardSize:
+                columnWin = True
+                break
+        return columnWin
+
+    def checkDiagonal(self, player):
+        diagonalWin = False
+        countToWin = 0
+        for i in range(0, self.boardSize):
+            if player[(self.boardSize*i)+(i+1)] is 1:
+                countToWin+=1
+        if countToWin is not self.boardSize:
+            countToWin = 0
+            for i in range(1, self.boardSize+1):
+                if player[(self.boardSize*i) - (i-1)] is 1:
+                    countToWin+=1
+            if countToWin is self.boardSize:
+                diagonalWin = True
+        else:
+            diagonalWin = True
+        return diagonalWin
+
     def checkWin(self, button, player):
         '''
         checkWin checks for 3 buttons in a straight line. If the player
@@ -76,57 +118,22 @@ class gameFunctions:
         player: Either playerOne or playerTwo
 
         *** Logic ***
-        Each player is a 10 element array all initialized to 0. The
-        elements change to 1 if that button is pressed. After there
-        are 3 elements that exist in a winning condition:
+        Each player is a boardSize x boardSize element array all 
+        initialized to 0. The elements change to 1 if that button is 
+        pressed.
         
-        1 | 2 | 3
-        _________
-        4 | 5 | 6
-        _________
-        7 | 8 | 9
-
-        The winning conditions are as follows (using diagram above)
-        123: Top Row
-        456: Mid Row
-        789: Bot Row
-        147: Lft Col
-        258: Mid Col
-        369: Rgt Col
-        159: Neg Slope Diagonal
-        357: Pos Slope Diagonal
-
         Once the winner is found:
         1. Message displaying winner
         2. Board reset
         '''
         player[self.id] = 1
-        # 1st Row
-        if player[1] == 1 and player[2] == 1 and player[3] == 1:
-            player[0] = 1
-        # 2nd Row
-        elif player[4] == 1 and player[5] == 1 and player[6] == 1:
-            player[0] = 1
-        # 3rd Row
-        elif player[7] == 1 and player[8] == 1 and player[9] == 1:
-            player[0] = 1
-        # 1st Column
-        elif player[1] == 1 and player[4] == 1 and player[7] == 1:
-            player[0] = 1
-        # 2nd Column
-        elif player[2] == 1 and player[5] == 1 and player[8] == 1:
-            player[0] = 1
-        # 3rd Column
-        elif player[3] == 1 and player[6] == 1 and player[9] == 1:
-            player[0] = 1
-        # Top Left to Bottom Right
-        elif player[1] == 1 and player[5] == 1 and player[9] == 1:
-            player[0] = 1
-        # Bottom Left to Top Right
-        elif player[7] == 1 and player[5] == 1 and player[3] == 1:
-            player[0] = 1
+        rowCheck = self.checkRow(player)
+        if rowCheck is not True:
+            columnCheck = self.checkColumn(player)
+            if columnCheck is not True:
+                diagCheck = self.checkDiagonal(player)
 
-        if player[0] == 1:
+        if rowCheck or columnCheck or diagCheck:
             if player == self.playerOne:
                 self.messageUpdate("Player 1 is the winner!")
             else:
