@@ -9,25 +9,30 @@ class Board:
         self.window = window
         self.boardSize = boardSize
 
+        # Creating the frame for the board. This will be displayed under the
+        # title frame
+        self.frameBoard = tk.Frame(self.window, bg='White')
+        self.frameBoard.grid(row=0,column=0,sticky='nsew')
+
         # Defining the expandable button array
         self.button = []
 
         # Setting the window size
         # TODO: Make expandable based on game size.
-        self.window.geometry('265x350')
-        self.window.config(bg='White')
-        self.window.title("Tic-Tac-Toe")
+        # self.window.geometry('265x350')
+        # self.window.config(bg='White')
+        # self.window.title("Tic-Tac-Toe")
 
         # Configuring Game Board
         self.__buttons__()
         self.__label__()
 
         # Importing the game functionality
-        self.Gf = Gf.GameFunctions(self.window, self.gameInfo, self.boardSize)
+        self.Gf = Gf.GameFunctions(self.frameBoard, self.gameInfo, self.boardSize)
         print("[INFO]t\tBoard Generated!")
 
         # Starting the GUI
-        self.window.mainloop()
+        # self.window.mainloop()
 
     def __label__(self):
         '''

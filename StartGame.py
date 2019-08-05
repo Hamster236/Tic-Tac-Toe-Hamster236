@@ -1,5 +1,5 @@
-import DrawBoard
+import TitleFrame as Tf
 import tkinter as tk
 
 # This script calls the board and starts the game.
-DrawBoard.Board(tk.Tk(), 3)
+Tf.TitleFrame(tk.Tk())
