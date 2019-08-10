@@ -6,19 +6,10 @@ class TitleFrame:
 
         # Class level Root tkinter window
         self.window = window
+
+        # Creating the Title window
+        self.__create__()
         
-        # Title frame
-        self.frameTitle = tk.Frame(self.window, bg='White', relief=tk.RAISED)
-        self.frameTitle.grid(row=0,column=0,sticky='nsew')
-
-        self.button = []
-
-        # Creating the board
-        self.board = db.Board(self.window)
-
-        self.__labels__()
-        self.__buttons__()
-
         # Window settings
         self.window.geometry('265x350')
         self.window.config(bg='White')
@@ -37,8 +28,20 @@ class TitleFrame:
             self.button.append(tk.Button(self.frameTitle,text=str(i),font=('ariel',14),bg='White',width=10,height=2,
                                          command=lambda count=count:self.boardSelect(count)))
             self.button[count-1].grid(row=count+2, column=1)
-            print(count-1)
-            count = count + 1
+            count+=1
+    
+    def __create__(self):
+        # Title frame
+        self.frameTitle = tk.Frame(self.window, bg='White', relief=tk.RAISED)
+        self.frameTitle.grid(row=0,column=0,sticky='nsew')
+
+        self.button = []
+
+        # Creating the board
+        self.board = db.Board(self.window)
+
+        self.__labels__()
+        self.__buttons__()
 
     def boardSelect(self, boardSize):
         if boardSize is 1:
