@@ -1,6 +1,6 @@
 import tkinter as tk
 
-class GameFunctions:
+class BoardFunctions:
     def __init__(self, window, label, boardSize):
         print("[INFO]\tInitializing game mechanics...")
         self.window = window

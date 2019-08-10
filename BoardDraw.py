@@ -1,7 +1,7 @@
 import tkinter as tk
-import GameFunctions as Gf
+import BoardFunctions as bf
 
-class Board:
+class BoardDraw:
     def __init__(self, window):
         # Creating class variables
         self.window = window
@@ -26,7 +26,7 @@ class Board:
         
         for i in range(0, boardSize * boardSize):
             self.button.append(tk.Button(self.frameBoard,text='-',font=('ariel',14),bg='White',width=6,height=3,
-                                         command=lambda i=i:self.Gf.playerSelect(self.button[i], i+1)))
+                                         command=lambda i=i:self.bf.playerSelect(self.button[i], i+1)))
             self.button[i].grid(row=(int(i/boardSize)%boardSize)+1,column=(int(i)%boardSize))
 
     def __create__(self, boardSize):
@@ -43,4 +43,4 @@ class Board:
         self.__label__()
 
         # Importing the game functionality
-        self.Gf = Gf.GameFunctions(self.frameBoard, self.gameInfo, boardSize)
+        self.bf = bf.BoardFunctions(self.frameBoard, self.gameInfo, boardSize)

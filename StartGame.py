@@ -1,5 +1,5 @@
-import TitleFrame as Tf
 import tkinter as tk
+import BoardSelect as bs
 
 # This script calls the board and starts the game.
-Tf.TitleFrame(tk.Tk())
+bs.BoardSelect(tk.Tk())
