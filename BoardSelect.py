@@ -7,17 +7,6 @@ class BoardSelect:
         # Class level Root tkinter window
         self.window = window
 
-        # Creating the Title window
-        self.__create__()
-        
-        # Window settings
-        self.window.geometry('265x350')
-        self.window.config(bg='White')
-        self.window.title('Tic-Tac-Toe')
-
-        # Main Executer
-        self.window.mainloop()
-
     def __labels__(self):
         mainMenu = tk.Label(self.frameTitle, text='Choose a board size', font=('ariel',20), anchor=tk.CENTER)
         mainMenu.grid(row=1, column=1, columnspan=2)
