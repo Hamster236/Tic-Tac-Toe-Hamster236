@@ -3,7 +3,6 @@ import BoardSelect as bs
 
 class NumberOfGames:
     def __init__(self, window):
-        print('[INFO]\tInitializing number of games...')
         self.window = window
         
         self.__create__()
@@ -17,7 +16,6 @@ class NumberOfGames:
 
         # Main Executer
         self.window.mainloop()
-        print('[INFO]\tNumber of games initialized')
 
     def __label__(self):
         gamesSelect = tk.Label(self.bestOfSelect,text="How many games?",font=('ariel',14),anchor=tk.CENTER)

@@ -10,6 +10,8 @@ class BoardFunctions:
         self.counter = 0
         self.winner  = 0
         self.playedGames = 1
+        self.playerOneWins = 0
+        self.playerTwoWins = 0
         
         # Calling the drawing board
         self.bd = bd.BoardDraw(self.window)
@@ -29,6 +31,7 @@ class BoardFunctions:
 
     def setBestOfGames(self, numberOfGames):
         self.numberOfGames = numberOfGames
+        self.winnersAdvantage = self.numberOfGames // 2 + 1
 
     def configButtons(self):
         self.boardButtons = []
@@ -48,6 +51,10 @@ class BoardFunctions:
         for i in range(self.boardSize * self.boardSize):
             self.boardButtons[i].configure(state='normal',text='-',fg='Black')
     
+    def endFrameSetup(self):
+        self.endFrame = tk.Frame(self.window, bg='White')
+        self.endFrame.grid(row=0,column=0,sticky='nsew')
+    
     def messageUpdate(self, message):
         self.messageLabel.config(text=message)
         self.window.update()
@@ -66,6 +73,8 @@ class BoardFunctions:
     def catsGameCheck(self):
         if self.counter == self.boardSize*self.boardSize and self.winner == 0:
             self.messageUpdate("Cats Game!")
+            self.clearStats()
+            self.clearBoard()
             # self.window.destroy()
 
     def playerSelect(self, button, id):
@@ -123,6 +132,27 @@ class BoardFunctions:
             diagonalWin = True
         return diagonalWin
 
+    def readyForReset(self):
+        if self.playedGames is not self.numberOfGames and \
+           self.playerOneWins is not self.winnersAdvantage and \
+           self.playerTwoWins is not self.winnersAdvantage:
+            self.clearStats()
+            self.clearBoard()
+            self.playedGames+=1
+            if self.playedGames%2 is 0:
+                self.counter = 0
+            else:
+                self.counter = 1
+        else:
+            if self.playerOneWins > self.playerTwoWins:
+                winnerMessage = "Player 1 is the Best!!"
+            else:
+                winnerMessage = "Player 2 is the Best!!"
+            self.bd.__destroy__()
+            self.endFrameSetup()
+            endLabel = tk.Label(self.endFrame, text=winnerMessage)
+            endLabel.grid(row=1,column=1,columnspan=2)
+
     def checkWin(self, button, player):
         '''
         checkWin checks for 3 buttons in a straight line. If the player
@@ -151,13 +181,9 @@ class BoardFunctions:
         if rowCheck or columnCheck or diagCheck:
             if player == self.playerOne:
                 self.messageUpdate("Player 1 is the winner!")
-                if self.playedGames is not self.numberOfGames:
-                    self.clearStats()
-                    self.clearBoard()
-                    self.playedGames+=1
+                self.playerOneWins+=1
+                self.readyForReset()
             else:
                 self.messageUpdate("Player 2 is the winner!")
-                if self.playedGames is not self.numberOfGames:
-                    self.clearStats()
-                    self.clearBoard()
-                    self.playedGames+=1
+                self.playerTwoWins+=1
+                self.readyForReset()

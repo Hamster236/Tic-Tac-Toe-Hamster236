@@ -31,3 +31,6 @@ class BoardDraw:
         # title frame
         self.frameBoard = tk.Frame(self.window, bg='White')
         self.frameBoard.grid(row=0,column=0,sticky='nsew')
+
+    def __destroy__(self):
+        self.frameBoard.destroy()
