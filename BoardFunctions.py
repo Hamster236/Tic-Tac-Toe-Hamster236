@@ -1,29 +1,59 @@
 import tkinter as tk
+import BoardDraw as bd
 
 class BoardFunctions:
-    def __init__(self, window, label, boardSize):
-        print("[INFO]\tInitializing game mechanics...")
+    def __init__(self, window):
         self.window = window
 
-        # Player/Winner variables
+    def __setup__(self):
+        # Defining counters
         self.counter = 0
-        self.winner = 0
+        self.winner  = 0
+        self.playedGames = 1
+        self.playerOneWins = 0
+        self.playerTwoWins = 0
+        
+        # Calling the drawing board
+        self.bd = bd.BoardDraw(self.window)
+        self.bd.__create__()
+        self.configButtons()
+
+        # Clearing stats and updating message board
+        self.clearStats()
+        self.setMessageLabel()
+        self.messageUpdate('Player One\'s Turn')
+
+    def setMessageLabel(self):
+        self.messageLabel = self.bd.__label__()
+
+    def setBoardSize(self, boardSize):
         self.boardSize = boardSize
 
-        self.clearStats()
+    def setBestOfGames(self, numberOfGames):
+        self.numberOfGames = numberOfGames
+        self.winnersAdvantage = self.numberOfGames // 2 + 1
 
-        self.id = 0
+    def configButtons(self):
+        self.boardButtons = []
+        self.boardButtons = self.bd.__buttons__(self.boardSize)
 
-        self.messageLabel = label
-        self.messageUpdate("Player 1's Turn")
-
-        print("[INFO]\tInitialization complete.")
+        for i in range(self.boardSize * self.boardSize):
+            self.boardButtons[i].configure(command=lambda i=i: self.playerSelect(self.boardButtons[i], i+1))
+            self.boardButtons[i].grid(row=(int(i/self.boardSize)%self.boardSize)+1,column=(int(i)%self.boardSize))
 
     def clearStats(self):
         numElements = self.boardSize * self.boardSize + 1
         self.playerOne = [0] * numElements
         self.playerTwo = [0] * numElements
         self.counter = 0
+
+    def clearBoard(self):
+        for i in range(self.boardSize * self.boardSize):
+            self.boardButtons[i].configure(state='normal',text='-',fg='Black')
+    
+    def endFrameSetup(self):
+        self.endFrame = tk.Frame(self.window, bg='White')
+        self.endFrame.grid(row=0,column=0,sticky='nsew')
     
     def messageUpdate(self, message):
         self.messageLabel.config(text=message)
@@ -43,6 +73,8 @@ class BoardFunctions:
     def catsGameCheck(self):
         if self.counter == self.boardSize*self.boardSize and self.winner == 0:
             self.messageUpdate("Cats Game!")
+            self.clearStats()
+            self.clearBoard()
             # self.window.destroy()
 
     def playerSelect(self, button, id):
@@ -100,6 +132,27 @@ class BoardFunctions:
             diagonalWin = True
         return diagonalWin
 
+    def readyForReset(self):
+        if self.playedGames is not self.numberOfGames and \
+           self.playerOneWins is not self.winnersAdvantage and \
+           self.playerTwoWins is not self.winnersAdvantage:
+            self.clearStats()
+            self.clearBoard()
+            self.playedGames+=1
+            if self.playedGames%2 is 0:
+                self.counter = 0
+            else:
+                self.counter = 1
+        else:
+            if self.playerOneWins > self.playerTwoWins:
+                winnerMessage = "Player 1 is the Best!!"
+            else:
+                winnerMessage = "Player 2 is the Best!!"
+            self.bd.__destroy__()
+            self.endFrameSetup()
+            endLabel = tk.Label(self.endFrame, text=winnerMessage)
+            endLabel.grid(row=1,column=1,columnspan=2)
+
     def checkWin(self, button, player):
         '''
         checkWin checks for 3 buttons in a straight line. If the player
@@ -128,5 +181,9 @@ class BoardFunctions:
         if rowCheck or columnCheck or diagCheck:
             if player == self.playerOne:
                 self.messageUpdate("Player 1 is the winner!")
+                self.playerOneWins+=1
+                self.readyForReset()
             else:
                 self.messageUpdate("Player 2 is the winner!")
+                self.playerTwoWins+=1
+                self.readyForReset()

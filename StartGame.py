@@ -1,5 +1,5 @@
 import tkinter as tk
-import BoardSelect as bs
+import NumberOfGames as nog
 
 # This script calls the board and starts the game.
-bs.BoardSelect(tk.Tk())
+nog.NumberOfGames(tk.Tk())
