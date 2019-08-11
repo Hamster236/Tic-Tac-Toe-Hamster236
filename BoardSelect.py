@@ -1,5 +1,5 @@
 import tkinter as tk
-import BoardDraw as bd
+import BoardFunctions as bf
 
 class BoardSelect:
     def __init__(self, window):
@@ -26,24 +26,30 @@ class BoardSelect:
 
         self.button = []
 
-        # Creating the board
-        self.bd = bd.BoardDraw(self.window)
+        self.bf = bf.BoardFunctions(self.window)
 
         self.__labels__()
         self.__buttons__()
 
+    def setBestOfGames(self, numberOfGames):
+        self.numberOfGames = numberOfGames
+
     def select(self, boardSize):
+        self.bf.setBestOfGames(self.numberOfGames)
         if boardSize is 1:
-            self.bd.__create__(3)
+            self.bf.setBoardSize(3)
             self.frameTitle.destroy()
         elif boardSize is 2:
-            self.bd.__create__(5)
+            self.bf.setBoardSize(5)
             self.frameTitle.destroy()
         elif boardSize is 3:
-            self.bd.__create__(7)
+            self.bf.setBoardSize(7)
             self.frameTitle.destroy()
         elif boardSize is 4:
-            self.bd.__create__(9)
+            self.bf.setBoardSize(9)
             self.frameTitle.destroy()
         else:
             print("Board size not supported.")
+        
+        self.bf.__setup__()
+        self.frameTitle.destroy()
