@@ -26,12 +26,30 @@ class PlayerNames:
                                  command=lambda:self.accept())
         playerAccept.grid(row=6,column=3)
 
-    def accept(self):
-        self.nog.setPlayerOneName(self.entryPlayerOne.get())
-        self.nog.setPlayerTwoName(self.entryPlayerTwo.get())
+    def checkNames(self):
+        if self.entryPlayerOne.get() is '' or self.entryPlayerTwo.get() is '':
+            errLabel = tk.Label(self.playerFrame,text='Name cannot be empty, please enter a name',bg='White')
+            errLabel.grid(row=5,column=0,columnspan=4)
+            return 0
+        elif ' ' in self.entryPlayerOne.get() or ' ' in self.entryPlayerTwo.get():
+            errLabel = tk.Label(self.playerFrame,text='Name cannot contain spaces, please enter a new name',bg='White')
+            errLabel.grid(row=5,column=0,columnspan=4)
+            return 0
+        elif len(self.entryPlayerOne.get()) > 22 or len(self.entryPlayerTwo.get()) > 22:
+            errLabel = tk.Label(self.playerFrame,text='Player Name is too long, please enter a new name',bg='White')
+            errLabel.grid(row=5,column=0,columnspan=4)
+            return 0
+        else:
+            return 1
 
-        self.playerFrame.destroy()
-        self.nog.__create__()
+    def accept(self):
+        passed = self.checkNames()
+        if passed:
+            self.nog.setPlayerOneName(self.entryPlayerOne.get())
+            self.nog.setPlayerTwoName(self.entryPlayerTwo.get())
+
+            self.playerFrame.destroy()
+            self.nog.__create__()
         
     def __create__(self):
         self.playerFrame = tk.Frame(self.window,bg='White')
