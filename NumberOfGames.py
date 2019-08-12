@@ -4,18 +4,7 @@ import BoardSelect as bs
 class NumberOfGames:
     def __init__(self, window):
         self.window = window
-        
-        self.__create__()
-
         self.bs = bs.BoardSelect(self.window)
-
-        # Window settings
-        self.window.geometry('265x350')
-        self.window.config(bg='White')
-        self.window.title('Tic-Tac-Toe')
-
-        # Main Executer
-        self.window.mainloop()
 
     def __label__(self):
         gamesSelect = tk.Label(self.bestOfSelect,text="How many games?",font=('ariel',14),anchor=tk.CENTER)
@@ -40,5 +29,13 @@ class NumberOfGames:
 
     def select(self, num):
         self.bs.setBestOfGames(num)
+        self.bs.setPlayerOneName(self.p1Name)
+        self.bs.setPlayerTwoName(self.p2Name)
         self.bs.__create__()
         self.bestOfSelect.destroy()
+
+    def setPlayerOneName(self, player):
+        self.p1Name = player
+
+    def setPlayerTwoName(self, player):
+        self.p2Name = player
