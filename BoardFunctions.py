@@ -21,7 +21,7 @@ class BoardFunctions:
         # Clearing stats and updating message board
         self.clearStats()
         self.setMessageLabel()
-        self.messageUpdate('Player One\'s Turn')
+        self.messageUpdate('Player ' + self.p1Name + '\'s Turn')
 
     def setMessageLabel(self):
         self.messageLabel = self.bd.__label__()
@@ -32,6 +32,12 @@ class BoardFunctions:
     def setBestOfGames(self, numberOfGames):
         self.numberOfGames = numberOfGames
         self.winnersAdvantage = self.numberOfGames // 2 + 1
+
+    def setPlayerOneName(self, player):
+        self.p1Name = player
+
+    def setPlayerTwoName(self, player):
+        self.p2Name = player
 
     def configButtons(self):
         self.boardButtons = []
@@ -81,11 +87,11 @@ class BoardFunctions:
         self.id = id
         if (self.counter % 2) ==  0:
             self.playerOneAction(button)
-            self.messageUpdate("Player 2's Turn")
+            self.messageUpdate(self.p2Name + '\'s Turn')
             self.checkWin(button, self.playerOne)
         else:
             self.PlayerTwoAction(button)
-            self.messageUpdate("Player 1's Turn")
+            self.messageUpdate(self.p1Name + '\'s Turn')
             self.checkWin(button, self.playerTwo)
         self.counter = self.counter + 1
         self.catsGameCheck()
@@ -145,9 +151,9 @@ class BoardFunctions:
                 self.counter = 1
         else:
             if self.playerOneWins > self.playerTwoWins:
-                winnerMessage = "Player 1 is the Best!!"
+                winnerMessage = self.p1Name + " is the Best!!"
             else:
-                winnerMessage = "Player 2 is the Best!!"
+                winnerMessage = self.p2Name + " is the Best!!"
             self.bd.__destroy__()
             self.endFrameSetup()
             endLabel = tk.Label(self.endFrame, text=winnerMessage)
@@ -180,10 +186,10 @@ class BoardFunctions:
 
         if rowCheck or columnCheck or diagCheck:
             if player == self.playerOne:
-                self.messageUpdate("Player 1 is the winner!")
+                self.messageUpdate(self.p1Name + "is the winner!")
                 self.playerOneWins+=1
                 self.readyForReset()
             else:
-                self.messageUpdate("Player 2 is the winner!")
+                self.messageUpdate(self.p2Name + "is the winner!")
                 self.playerTwoWins+=1
                 self.readyForReset()
