@@ -29,13 +29,10 @@ class NumberOfGames:
 
     def select(self, num):
         self.bs.setBestOfGames(num)
-        self.bs.setPlayerOneName(self.p1Name)
-        self.bs.setPlayerTwoName(self.p2Name)
+        self.bs.setPlayer(self.player1, self.player2)
         self.bs.__create__()
         self.bestOfSelect.destroy()
 
-    def setPlayerOneName(self, player):
-        self.p1Name = player
-
-    def setPlayerTwoName(self, player):
-        self.p2Name = player
+    def setPlayer(self, player1, player2):
+        self.player1 = player1
+        self.player2 = player2

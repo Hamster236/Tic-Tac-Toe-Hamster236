@@ -1,5 +1,6 @@
 import tkinter as tk
 import BoardDraw as bd
+import SaveData as sd
 
 class BoardFunctions:
     def __init__(self, window):
@@ -12,6 +13,9 @@ class BoardFunctions:
         self.playedGames = 1
         self.playerOneWins = 0
         self.playerTwoWins = 0
+
+        # Calling the saved data file
+        self.sd = sd.SavedData()
         
         # Calling the drawing board
         self.bd = bd.BoardDraw(self.window)
@@ -21,7 +25,7 @@ class BoardFunctions:
         # Clearing stats and updating message board
         self.clearStats()
         self.setMessageLabel()
-        self.messageUpdate('Player ' + self.p1Name + '\'s Turn')
+        self.messageUpdate('Player ' + self.player1.name + '\'s Turn')
 
     def setMessageLabel(self):
         self.messageLabel = self.bd.__label__()
@@ -33,11 +37,9 @@ class BoardFunctions:
         self.numberOfGames = numberOfGames
         self.winnersAdvantage = self.numberOfGames // 2 + 1
 
-    def setPlayerOneName(self, player):
-        self.p1Name = player
-
-    def setPlayerTwoName(self, player):
-        self.p2Name = player
+    def setPlayer(self, player1, player2):
+        self.player1 = player1
+        self.player2 = player2
 
     def configButtons(self):
         self.boardButtons = []
@@ -87,11 +89,11 @@ class BoardFunctions:
         self.id = id
         if (self.counter % 2) ==  0:
             self.playerOneAction(button)
-            self.messageUpdate(self.p2Name + '\'s Turn')
+            self.messageUpdate(self.player2.name + '\'s Turn')
             self.checkWin(button, self.playerOne)
         else:
             self.PlayerTwoAction(button)
-            self.messageUpdate(self.p1Name + '\'s Turn')
+            self.messageUpdate(self.player1.name + '\'s Turn')
             self.checkWin(button, self.playerTwo)
         self.counter = self.counter + 1
         self.catsGameCheck()
@@ -151,9 +153,18 @@ class BoardFunctions:
                 self.counter = 1
         else:
             if self.playerOneWins > self.playerTwoWins:
-                winnerMessage = self.p1Name + " is the Best!!"
+                winnerMessage = self.player1.name + " is the Best!!"
             else:
-                winnerMessage = self.p2Name + " is the Best!!"
+                winnerMessage = self.player2.name + " is the Best!!"
+            if self.player1.losses != 0:
+                self.player1.ratio = self.player1.wins / (self.player1.wins + self.player1.losses)
+            else:
+                self.player1.ratio = 1.0
+            if self.player2.losses != 0:
+                self.player2.ratio = self.player2.wins / (self.player2.wins + self.player2.losses)
+            else:
+                self.player2.ratio = 1.0
+            self.sd.writeData(self.player1,self.player2)
             self.bd.__destroy__()
             self.endFrameSetup()
             endLabel = tk.Label(self.endFrame, text=winnerMessage)
@@ -186,10 +197,14 @@ class BoardFunctions:
 
         if rowCheck or columnCheck or diagCheck:
             if player == self.playerOne:
-                self.messageUpdate(self.p1Name + "is the winner!")
+                self.messageUpdate(self.player1.name + " is the winner!")
+                self.player1.wins+=1
+                self.player2.losses+=1
                 self.playerOneWins+=1
                 self.readyForReset()
             else:
-                self.messageUpdate(self.p2Name + "is the winner!")
+                self.messageUpdate(self.player2.name + "is the winner!")
+                self.player2.wins+=1
+                self.player1.losses+=1
                 self.playerTwoWins+=1
                 self.readyForReset()

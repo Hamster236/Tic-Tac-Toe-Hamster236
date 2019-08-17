@@ -1,5 +1,6 @@
 import tkinter as tk
 import NumberOfGames as nog
+import SaveData as sd
 
 class PlayerNames:
     def __init__(self, window):
@@ -40,13 +41,13 @@ class PlayerNames:
             errLabel.grid(row=5,column=0,columnspan=4)
             return 0
         else:
+            self.playerOne, self.playerTwo = self.sd.readData(self.entryPlayerOne.get(), self.entryPlayerTwo.get())
             return 1
 
     def accept(self):
         passed = self.checkNames()
         if passed:
-            self.nog.setPlayerOneName(self.entryPlayerOne.get())
-            self.nog.setPlayerTwoName(self.entryPlayerTwo.get())
+            self.nog.setPlayer(self.playerOne,self.playerTwo)
 
             self.playerFrame.destroy()
             self.nog.__create__()
@@ -61,6 +62,7 @@ class PlayerNames:
 
     def setup(self):
         self.nog = nog.NumberOfGames(self.window)
+        self.sd = sd.SavedData()
 
         self.__create__()
 
