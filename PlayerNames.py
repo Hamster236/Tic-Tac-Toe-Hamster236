@@ -5,8 +5,7 @@ import SaveData as sd
 class PlayerNames:
     def __init__(self, window):
         self.window = window
-        self.playerOneName = ''
-        self.playerTwoName = ''
+        self.playerName = ['', '']
 
     def __label__(self):
         playerOneSelect = tk.Label(self.playerFrame,text='Enter Player One\'s Name',font=('ariel',14),anchor=tk.CENTER)
@@ -16,10 +15,10 @@ class PlayerNames:
         playerTwoSelect.grid(row=3,column=1,columnspan=2)
 
     def __entry__(self):
-        self.entryPlayerOne = tk.Entry(self.playerFrame,bg='White')
+        self.entryPlayerOne = tk.Entry(self.playerFrame,textvariable=self.playerName[0],bg='White')
         self.entryPlayerOne.grid(row=1,column=1,columnspan=2)
 
-        self.entryPlayerTwo = tk.Entry(self.playerFrame,textvariable=self.playerTwoName,bg='White')
+        self.entryPlayerTwo = tk.Entry(self.playerFrame,textvariable=self.playerName[1],bg='White')
         self.entryPlayerTwo.grid(row=4,column=1,columnspan=2)
 
     def __button__(self):
@@ -41,13 +40,13 @@ class PlayerNames:
             errLabel.grid(row=5,column=0,columnspan=4)
             return 0
         else:
-            self.playerOne, self.playerTwo = self.sd.readData(self.entryPlayerOne.get(), self.entryPlayerTwo.get())
+            self.players = self.sd.readData(self.entryPlayerOne.get(), self.entryPlayerTwo.get())
             return 1
 
     def accept(self):
         passed = self.checkNames()
         if passed:
-            self.nog.setPlayer(self.playerOne,self.playerTwo)
+            self.nog.setPlayer(self.players)
 
             self.playerFrame.destroy()
             self.nog.__create__()

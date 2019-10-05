@@ -11,8 +11,7 @@ class BoardFunctions:
         self.counter = 0
         self.winner  = 0
         self.playedGames = 1
-        self.playerOneWins = 0
-        self.playerTwoWins = 0
+        self.playerWins = [0, 0]
 
         # Calling the saved data file
         self.sd = sd.SavedData()
@@ -25,7 +24,7 @@ class BoardFunctions:
         # Clearing stats and updating message board
         self.clearStats()
         self.setMessageLabel()
-        self.messageUpdate('Player ' + self.player1.name + '\'s Turn')
+        self.messageUpdate('Player ' + self.players[0].name + '\'s Turn')
 
     def setMessageLabel(self):
         self.messageLabel = self.bd.__label__()
@@ -37,9 +36,8 @@ class BoardFunctions:
         self.numberOfGames = numberOfGames
         self.winnersAdvantage = self.numberOfGames // 2 + 1
 
-    def setPlayer(self, player1, player2):
-        self.player1 = player1
-        self.player2 = player2
+    def setPlayer(self, players):
+        self.players = players
 
     def configButtons(self):
         self.boardButtons = []
@@ -51,8 +49,8 @@ class BoardFunctions:
 
     def clearStats(self):
         numElements = self.boardSize * self.boardSize + 1
-        self.playerOne = [0] * numElements
-        self.playerTwo = [0] * numElements
+        self.players[0].spaces = [0] * numElements
+        self.players[1].spaces = [0] * numElements
         self.counter = 0
 
     def clearBoard(self):
@@ -83,18 +81,17 @@ class BoardFunctions:
             self.messageUpdate("Cats Game!")
             self.clearStats()
             self.clearBoard()
-            # self.window.destroy()
 
     def playerSelect(self, button, id):
         self.id = id
         if (self.counter % 2) ==  0:
             self.playerOneAction(button)
-            self.messageUpdate(self.player2.name + '\'s Turn')
-            self.checkWin(button, self.playerOne)
+            self.messageUpdate(self.players[1].name + '\'s Turn')
+            self.checkWin(button, self.players[0])
         else:
             self.PlayerTwoAction(button)
-            self.messageUpdate(self.player1.name + '\'s Turn')
-            self.checkWin(button, self.playerTwo)
+            self.messageUpdate(self.players[0].name + '\'s Turn')
+            self.checkWin(button, self.players[1])
         self.counter = self.counter + 1
         self.catsGameCheck()
 
@@ -104,7 +101,7 @@ class BoardFunctions:
         for i in range(0, self.boardSize):
             countToWin = 0
             for j in range(1, self.boardSize+1):
-                if player[self.boardSize*i + j] is 1:
+                if player.spaces[self.boardSize*i + j] is 1:
                     countToWin+=1
             if countToWin is self.boardSize:
                 rowWin = True
@@ -116,7 +113,7 @@ class BoardFunctions:
         for i in range(1, self.boardSize+1):
             countToWin = 0
             for j in range(0, self.boardSize):
-                if player[i + self.boardSize*j] is 1:
+                if player.spaces[i + self.boardSize*j] is 1:
                     countToWin+=1
             if countToWin is self.boardSize:
                 columnWin = True
@@ -127,12 +124,12 @@ class BoardFunctions:
         diagonalWin = False
         countToWin = 0
         for i in range(0, self.boardSize):
-            if player[(self.boardSize*i)+(i+1)] is 1:
+            if player.spaces[(self.boardSize*i)+(i+1)] is 1:
                 countToWin+=1
         if countToWin is not self.boardSize:
             countToWin = 0
             for i in range(1, self.boardSize+1):
-                if player[(self.boardSize*i) - (i-1)] is 1:
+                if player.spaces[(self.boardSize*i) - (i-1)] is 1:
                     countToWin+=1
             if countToWin is self.boardSize:
                 diagonalWin = True
@@ -142,8 +139,8 @@ class BoardFunctions:
 
     def readyForReset(self):
         if self.playedGames is not self.numberOfGames and \
-           self.playerOneWins is not self.winnersAdvantage and \
-           self.playerTwoWins is not self.winnersAdvantage:
+           self.playerWins[0] is not self.winnersAdvantage and \
+           self.playerWins[1] is not self.winnersAdvantage:
             self.clearStats()
             self.clearBoard()
             self.playedGames+=1
@@ -152,24 +149,25 @@ class BoardFunctions:
             else:
                 self.counter = 1
         else:
-            if self.playerOneWins > self.playerTwoWins:
-                winnerMessage = self.player1.name + " is the Best!!"
+            if self.playerWins[0] > self.playerWins[1]:
+                winnerMessage = self.players[0].name + " is the Best!!"
             else:
-                winnerMessage = self.player2.name + " is the Best!!"
-            if self.player1.losses != 0:
-                self.player1.ratio = self.player1.wins / (self.player1.wins + self.player1.losses)
+                winnerMessage = self.players[1].name + " is the Best!!"
+            if self.players[0].losses != 0:
+                self.players[0].ratio = self.players[0].wins / (self.players[0].wins + self.players[0].losses)
             else:
-                self.player1.ratio = 1.0
-            if self.player2.losses != 0:
-                self.player2.ratio = self.player2.wins / (self.player2.wins + self.player2.losses)
+                self.players[0].ratio = 1.0
+            if self.players[1].losses != 0:
+                self.players[1].ratio = self.players[1].wins / (self.players[1].wins + self.players[1].losses)
             else:
-                self.player2.ratio = 1.0
-            self.sd.writeData(self.player1,self.player2)
+                self.players[1].ratio = 1.0
+            self.sd.writeData(self.players) # Update SaveData for this param
             self.bd.__destroy__()
             self.endFrameSetup()
             endLabel = tk.Label(self.endFrame, text=winnerMessage)
             endLabel.grid(row=1,column=1,columnspan=2)
 
+    # TODO: This function needs to be refactored to be solely based on player. 
     def checkWin(self, button, player):
         '''
         checkWin checks for 3 buttons in a straight line. If the player
@@ -188,7 +186,7 @@ class BoardFunctions:
         1. Message displaying winner
         2. Board reset
         '''
-        player[self.id] = 1
+        player.spaces[self.id] = 1
         rowCheck = self.checkRow(player)
         if rowCheck is not True:
             columnCheck = self.checkColumn(player)
@@ -196,15 +194,15 @@ class BoardFunctions:
                 diagCheck = self.checkDiagonal(player)
 
         if rowCheck or columnCheck or diagCheck:
-            if player == self.playerOne:
-                self.messageUpdate(self.player1.name + " is the winner!")
-                self.player1.wins+=1
-                self.player2.losses+=1
-                self.playerOneWins+=1
+            if player is self.players[0]:
+                self.messageUpdate(self.players[0].name + " is the winner!")
+                self.players[0].wins+=1
+                self.players[1].losses+=1
+                self.playerWins[0]+=1
                 self.readyForReset()
             else:
-                self.messageUpdate(self.player2.name + "is the winner!")
-                self.player2.wins+=1
-                self.player1.losses+=1
-                self.playerTwoWins+=1
+                self.messageUpdate(self.players[1].name + "is the winner!")
+                self.players[1].wins+=1
+                self.players[0].losses+=1
+                self.playerWins[1]+=1
                 self.readyForReset()
