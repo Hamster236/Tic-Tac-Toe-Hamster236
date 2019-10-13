@@ -1,6 +1,7 @@
 import tkinter as tk
 import BoardDraw as bd
 import SaveData as sd
+import StatsPage as sp
 
 class BoardFunctions:
     def __init__(self, window):
@@ -164,8 +165,9 @@ class BoardFunctions:
             self.sd.writeData(self.players) # Update SaveData for this param
             self.bd.__destroy__()
             self.endFrameSetup()
-            endLabel = tk.Label(self.endFrame, text=winnerMessage)
-            endLabel.grid(row=1,column=1,columnspan=2)
+            # endLabel = tk.Label(self.endFrame, text=winnerMessage)
+            # endLabel.grid(row=1,column=1,columnspan=2)
+            sp.StatsPage(self.endFrame, self.sd.playerlist, winnerMessage)
 
     # TODO: This function needs to be refactored to be solely based on player. 
     def checkWin(self, button, player):

@@ -9,6 +9,7 @@ class SavedData:
         self.filename = 'savedata.csv'
         self.info = ['Name','Wins','Losses','Ratio']
         self.linecount = 0
+        self.playerlist = []
         if not os.path.isfile(self.filename):
             self.writeTitle()
         
@@ -27,8 +28,6 @@ class SavedData:
         players[0].name = player1Name
         players[1].name = player2Name
 
-        # Saving other players for a new file.
-        self.playerlist = []
         #player2 = {'name':player2Name, 'wins':0, 'losses':0, 'ratio':0}
         with open(self.filename, 'r+') as savedata:
             reader = csv.DictReader(savedata)

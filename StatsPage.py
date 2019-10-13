@@ -5,6 +5,8 @@ class StatsPage:
         self.window = window
         self.players = players
         self.winner_message = winner_message
+        
+        self.createFrame()
 
     def createFrame(self):
         stats_frame = tk.Frame(self.window, bg='White', relief=tk.RAISED)
