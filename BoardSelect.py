@@ -34,12 +34,13 @@ class BoardSelect:
     def setBestOfGames(self, numberOfGames):
         self.numberOfGames = numberOfGames
 
-    def setPlayer(self, players):
+    def setPlayer(self, players, playerlist):
         self.players = players
+        self.playerlist = playerlist
 
     def select(self, boardSize):
         self.bf.setBestOfGames(self.numberOfGames)
-        self.bf.setPlayer(self.players)
+        self.bf.setPlayer(self.players, self.playerlist)
         if boardSize is 1:
             self.bf.setBoardSize(3)
             self.frameTitle.destroy()
