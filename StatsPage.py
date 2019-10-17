@@ -28,10 +28,10 @@ class StatsPage:
     def displayPlayerStats(self, canvas):
         scrollbar = tk.Scrollbar(canvas)
         scrollbar.grid(row=1, column=5, sticky='ns')
-        self.listbox_names = tk.Listbox(canvas, yscrollcommand=scrollbar.set)
-        self.listbox_wins = tk.Listbox(canvas, yscrollcommand=scrollbar.set)
-        self.listbox_losses = tk.Listbox(canvas, yscrollcommand=scrollbar.set)
-        self.listbox_ratios = tk.Listbox(canvas, yscrollcommand=scrollbar.set)
+        self.listbox_names = tk.Listbox(canvas, width=10, yscrollcommand=scrollbar.set)
+        self.listbox_wins = tk.Listbox(canvas, width=3, yscrollcommand=scrollbar.set)
+        self.listbox_losses = tk.Listbox(canvas, width=3, yscrollcommand=scrollbar.set)
+        self.listbox_ratios = tk.Listbox(canvas, width=8, yscrollcommand=scrollbar.set)
         for player in self.playerlist:
             self.listbox_names.insert(tk.END, player.name)
             self.listbox_wins.insert(tk.END, player.wins)
