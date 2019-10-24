@@ -6,6 +6,7 @@ class StatsPage:
         self.window = window
         self.playerlist = playerlist
         self.winner_message = winner_message
+        self.style = ttk.Style()
         self.createFrame()
 
 
@@ -64,11 +65,12 @@ class StatsPage:
         canvas.columnconfigure(0, weight=1)
 
         # FIXME:
-        ttk.Style().configure("Treeview", fieldbackground="red")
+        self.style.map('Treeview', foreground=self.fixTreeMapping('foreground'),
+                       background=self.fixTreeMapping('background'))
 
         # tags for even and odd to show rows
-        tree.tag_configure('even', background='pink')
-        tree.tag_configure('odd', background='lightgreen')
+        tree.tag_configure('even', background='white')
+        tree.tag_configure('odd', background='grey90')
 
         return tree
 
@@ -76,4 +78,15 @@ class StatsPage:
     def fillTreeview(self, tree):
         for i, player in enumerate(self.playerlist, start=1):
             data = [player.name, player.wins, player.losses, player.ratio]
-            tree.insert('', tk.END, text='%3d'%i, values=data, tags=('even'))
+            if i%2 == 0:
+                tags = ('even')
+            else:
+                tags = ('odd')
+            tree.insert('', tk.END, text='%3d'%i, values=data, tags=tags)
+
+    
+    # FIXME: This code exists for changing entry colors....
+    # Should tkinter be updated in the future, can remove.
+    def fixTreeMapping(self, option):
+        return [elm for elm in self.style.map('Treeview', query_opt=option) if
+            elm[:2] != ('!disabled', '!selected')]
