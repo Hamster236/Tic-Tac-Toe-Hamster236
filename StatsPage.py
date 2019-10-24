@@ -2,35 +2,33 @@ import tkinter as tk
 import tkinter.ttk as ttk
 
 class StatsPage:
-    def __init__(self, window, playerlist, winner_message):
+    def __init__(self, window, player_list, winner_message):
         self.window = window
-        self.playerlist = playerlist
+        self.player_list = player_list
         self.winner_message = winner_message
         self.style = ttk.Style()
-        self.createFrame()
+        self.create_frame()
 
-
-    def createFrame(self):
+    def create_frame(self):
         stats_frame = tk.Frame(self.window, relief=tk.RAISED)
         stats_frame.grid(row=0, column=0)
         stats_canvas_winner_results = tk.Canvas(stats_frame)
         stats_canvas_winner_results.grid(row=0, column=0)
-        self.displayWinner(stats_canvas_winner_results)
+        self.display_winner(stats_canvas_winner_results)
         stats_canvas_player_results = tk.Canvas(stats_frame)
         stats_canvas_player_results.grid(row=1, column=0)
-        self.displayPlayerStats(stats_canvas_player_results)
+        self.display_player_stats(stats_canvas_player_results)
 
-
-    def displayWinner(self, canvas):
+    def display_winner(self, canvas):
         winner_message = tk.Label(canvas, text=self.winner_message)
         winner_message.grid(row=0, column=0)
 
-    def displayPlayerStats(self, canvas):
-        tree = self.TreeviewSetup(canvas)
-        self.fillTreeview(tree)
+    def display_player_stats(self, canvas):
+        tree = self.treeview_setup(canvas)
+        self.fill_treeview(tree)
 
 
-    def TreeviewSetup(self, canvas):
+    def treeview_setup(self, canvas):
         # data columns
         headings = ('name', 'wins', 'losses', 'ratio')
 
@@ -64,9 +62,9 @@ class StatsPage:
         # resize the column size of the window
         canvas.columnconfigure(0, weight=1)
 
-        # FIXME:
-        self.style.map('Treeview', foreground=self.fixTreeMapping('foreground'),
-                       background=self.fixTreeMapping('background'))
+        # FIXME: This line calls the fixme function
+        self.style.map('Treeview', foreground=self.fix_tree_mapping('foreground'),
+                       background=self.fix_tree_mapping('background'))
 
         # tags for even and odd to show rows
         tree.tag_configure('even', background='white')
@@ -74,9 +72,8 @@ class StatsPage:
 
         return tree
 
-    
-    def fillTreeview(self, tree):
-        for i, player in enumerate(self.playerlist, start=1):
+    def fill_treeview(self, tree):
+        for i, player in enumerate(self.player_list, start=1):
             data = [player.name, player.wins, player.losses, player.ratio]
             if i%2 == 0:
                 tags = ('even')
@@ -88,6 +85,6 @@ class StatsPage:
     # FIXME: This code exists for changing entry colors....
     # Should tkinter be updated in the future, can remove.
     # Fix reference: https://bugs.python.org/issue36468
-    def fixTreeMapping(self, option):
+    def fix_tree_mapping(self, option):
         return [elm for elm in self.style.map('Treeview', query_opt=option) if
             elm[:2] != ('!disabled', '!selected')]
