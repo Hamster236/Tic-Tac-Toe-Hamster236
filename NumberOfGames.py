@@ -1,14 +1,17 @@
 import tkinter as tk
 import BoardSelect as bs
 
+
 class NumberOfGames:
     def __init__(self, window):
         self.window = window
         self.bs = bs.BoardSelect(self.window)
 
+
     def __label__(self):
         gamesSelect = tk.Label(self.bestOfSelect,text="How many games?",font=('ariel',14),anchor=tk.CENTER)
         gamesSelect.grid(row=0,column=1,columnspan=2)
+
 
     def __buttons__(self):
         j=0
@@ -18,6 +21,7 @@ class NumberOfGames:
             self.buttons[j].grid(row=j+1,column=1,columnspan=2)
             j+=1
     
+
     def __create__(self):
         self.bestOfSelect = tk.Frame(self.window,bg='White')
         self.bestOfSelect.grid(row=0,column=0,sticky='nsew')
@@ -27,11 +31,14 @@ class NumberOfGames:
         self.__label__()
         self.__buttons__()
 
+
     def select(self, num):
         self.bs.setBestOfGames(num)
-        self.bs.setPlayer(self.players)
+        self.bs.setPlayer(self.players, self.playerlist)
         self.bs.__create__()
         self.bestOfSelect.destroy()
 
-    def setPlayer(self, players):
+
+    def setPlayer(self, players, playerlist):
         self.players = players
+        self.playerlist = playerlist
