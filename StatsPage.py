@@ -87,6 +87,7 @@ class StatsPage:
     
     # FIXME: This code exists for changing entry colors....
     # Should tkinter be updated in the future, can remove.
+    # Fix reference: https://bugs.python.org/issue36468
     def fixTreeMapping(self, option):
         return [elm for elm in self.style.map('Treeview', query_opt=option) if
             elm[:2] != ('!disabled', '!selected')]
