@@ -7,38 +7,33 @@ class NumberOfGames:
         self.window = window
         self.bs = bs.BoardSelect(self.window)
 
+    def label(self):
+        games_select = tk.Label(self.best_of_select, text="How many games?",
+                                font=('ariel',14), anchor=tk.CENTER)
+        games_select.grid(row=0,column=1,columnspan=2)
 
-    def __label__(self):
-        gamesSelect = tk.Label(self.bestOfSelect,text="How many games?",font=('ariel',14),anchor=tk.CENTER)
-        gamesSelect.grid(row=0,column=1,columnspan=2)
+    def button(self):
+        for i, button_name in enumerate(['Best of 1', 'Best of 3', 'Best of 5']):
+            self.buttons.append(tk.Button(self.best_of_select, text=button_name,
+                                font=('ariel',14), width=10, height=2,
+                                command=lambda i=i:self.select(2*i+1)))
+            self.buttons[i].grid(row=i,column=1,columnspan=2)
 
-
-    def __buttons__(self):
-        j=0
-        for i in ['Best of 1', 'Best of 3', 'Best of 5']:
-            self.buttons.append(tk.Button(self.bestOfSelect,text=i,font=('ariel',14),width=10,height=2,
-                                command=lambda j=j:self.select(2*j+1)))
-            self.buttons[j].grid(row=j+1,column=1,columnspan=2)
-            j+=1
-    
-
-    def __create__(self):
-        self.bestOfSelect = tk.Frame(self.window,bg='White')
-        self.bestOfSelect.grid(row=0,column=0,sticky='nsew')
+    def create(self):
+        self.best_of_select = tk.Frame(self.window,bg='White')
+        self.best_of_select.grid(row=0,column=0,sticky='nsew')
 
         self.buttons = []
-
-        self.__label__()
-        self.__buttons__()
-
+        self.label()
+        self.button()
 
     def select(self, num):
-        self.bs.setBestOfGames(num)
-        self.bs.setPlayer(self.players, self.playerlist)
-        self.bs.__create__()
-        self.bestOfSelect.destroy()
+        self.bs.set_best_of_games(num)
+        self.bs.set_player(self.players, self.player_list)
+        self.bs.create()
+        self.best_of_select.destroy()
 
-
-    def setPlayer(self, players, playerlist):
+    # TODO: Update name to reflect player list as well
+    def set_player(self, players, player_list):
         self.players = players
-        self.playerlist = playerlist
+        self.player_list = player_list
