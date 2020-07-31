@@ -8,12 +8,13 @@ numbering system that will show the most recent players games first.
 
 import tkinter as tk
 import tkinter.ttk as ttk
+import NewGame as ng
 
 
 class StatsPage:
     """Stats Page Class."""
 
-    def __init__(self, window, player_list, winner_message):
+    def __init__(self, window, players, player_list, winner_message):
         """
         Initialize the Stats Page Class.
 
@@ -21,6 +22,7 @@ class StatsPage:
         message. Then create the window.
         """
         self.window = window
+        self.players = players
         self.player_list = player_list
         self.winner_message = winner_message
         self.style = ttk.Style()
@@ -36,6 +38,8 @@ class StatsPage:
         stats_canvas_player_results = tk.Canvas(stats_frame)
         stats_canvas_player_results.grid(row=1, column=0)
         self.display_player_stats(stats_canvas_player_results)
+
+        ng.NewGame(self.window, self.players, self.player_list)
 
     def display_winner(self, canvas):
         """Display Winner."""
