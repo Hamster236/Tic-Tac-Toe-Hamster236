@@ -1,4 +1,5 @@
 """Board Functions."""
+import logging
 import tkinter as tk
 import BoardDraw as bd
 import SaveData as sd
@@ -15,6 +16,8 @@ class BoardFunctions:
         Window is the tkinter GUI given from PlayerNames.
         """
         self.window = window
+        logging.basicConfig()
+        logging.getLogger().setLevel(logging.NOTSET)
 
     def setup(self):
         """
@@ -118,8 +121,8 @@ class BoardFunctions:
 
     def cats_game_check(self):
         """Check for no winner."""
-        cat_check = self.board_size * self.board_size and self.winner == 0
-        if self.counter == cat_check:
+        cat_check = self.board_size * self.board_size
+        if self.counter == cat_check and self.winner == 0:
             self.message_update("Cats Game!")
             self.clear_stats()
             self.clear_board()

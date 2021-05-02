@@ -59,7 +59,7 @@ class PlayerNames:
                                   font=('ariel', 14),
                                   width=6, height=2,
                                   command=lambda: self.accept())
-        player_accept.grid(row=6, column=3)
+        player_accept.grid(row=6, column=1, columnspan=2)
 
     def create(self):
         """Create the window."""
