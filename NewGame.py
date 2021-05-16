@@ -57,7 +57,7 @@ class NewGame:
         Starts the game over from the beginning. Simply calling the start
         game class.
         """
-        exit()
+        self.window.destroy()
         pn.PlayerNames(tk.Tk()).setup()
 
     def end_game(self):
